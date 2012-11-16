@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_openshift_blog_domain_Post" object="${post}" path="/posts" z="iWn1Pi0bPcTzpv3sREEWjvigZQc=">
+        <field:display field="title" id="s_com_openshift_blog_domain_Post_title" object="${post}" z="/4aEs+u/FGz2eIg1U28Doq4Uefc="/>
+        <field:display field="body" id="s_com_openshift_blog_domain_Post_body" object="${post}" z="2NrdeeO+zqWVYA4MSNtFhaBH25s="/>
+        <field:display field="author" id="s_com_openshift_blog_domain_Post_author" object="${post}" z="KhPk1/Ddm8i8NJ/iovTE4WVMDcQ="/>
+        <field:display date="true" dateTimePattern="${post_createdon_date_format}" field="createdOn" id="s_com_openshift_blog_domain_Post_createdOn" object="${post}" z="VPE+1IY2hy7e3/asJVVy2Jd+7TU="/>
+    </page:show>
+</div>
