@@ -11,7 +11,9 @@
 	<c:out value="${message}"></c:out><br></br><BR />
 	
 	<c:forEach var="word" items="${result.words}">
-		<c:out value="${word.word}"></c:out>
-		<c:out value="${word.hits}"></c:out>
+	<tr>
+          <td>${word.word}</td>
+          <td>${word.hits}</td>
+        </tr>
 	</c:forEach>
 </div>
