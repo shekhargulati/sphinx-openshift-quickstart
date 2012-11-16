@@ -49,6 +49,7 @@ public class PostController {
 			SphinxResult result = searchClient.Query(searchTerm, index);
 			System.out.println("Result is "+result);
 			String message =  "Query '" + searchTerm + "' retrieved " + result.total + " of " + result.totalFound + " matches in " + result.time + " sec." ;
+			System.out.println(message);
 			uiModel.addAttribute("message", message);
 			uiModel.addAttribute("result", result);
 			return "posts/result";

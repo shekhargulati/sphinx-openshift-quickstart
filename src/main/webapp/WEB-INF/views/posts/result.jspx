@@ -10,7 +10,4 @@
 	
 	<c:out value="${message}"></c:out><br></br><BR />
 	
-	<c:forEach var="word" items="${result.words}">
-		<c:out value="${word}"></c:out>
-	</c:forEach>
 </div>
