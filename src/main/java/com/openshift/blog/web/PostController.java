@@ -1,10 +1,13 @@
 package com.openshift.blog.web;
 
-import com.openshift.blog.domain.Post;
 import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.joda.time.format.DateTimeFormat;
+import org.sphx.api.SphinxClient;
+import org.sphx.api.SphinxResult;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
@@ -17,10 +20,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
+import com.openshift.blog.domain.Post;
+
 @RequestMapping("/posts")
 @Controller
 @RooWebScaffold(path = "posts", formBackingObject = Post.class)
 public class PostController {
+	
+	@RequestMapping(value="/posts/{searchTerm}", method=RequestMethod.GET,produces = "text/html")
+	public String search(@PathVariable("searchTerm")String searchTerm,Model uiModel) throws Exception{
+		SphinxClient searchClient = new SphinxClient();
+		String host = System.getenv("OPENSHIFT_INTERNAL_IP");
+		int port = 15000;
+		int mode = SphinxClient.SPH_MATCH_ALL;
+		String index = "*";
+		int offset = 0;
+		int limit = 20;
+		int sortMode = SphinxClient.SPH_SORT_RELEVANCE;
+		String sortClause = "";
+		String groupBy = "";
+		String groupSort = "";
+		
+		searchClient.SetServer(host, port);
+		searchClient.SetWeights ( new int[] { 100, 1 } );
+		searchClient.SetMatchMode ( mode );
+		searchClient.SetLimits ( offset, limit );
+		searchClient.SetSortMode ( sortMode, sortClause );
+		
+		SphinxResult result = searchClient.Query(searchTerm, index);
+		String message =  "Query '" + searchTerm + "' retrieved " + result.total + " of " + result.totalFound + " matches in " + result.time + " sec." ;
+		uiModel.addAttribute("message", message);
+		uiModel.addAttribute("result", result);
+		return "posts/result";
+	}
+	
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid Post post, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
