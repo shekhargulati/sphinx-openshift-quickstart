@@ -27,31 +27,37 @@ import com.openshift.blog.domain.Post;
 @RooWebScaffold(path = "posts", formBackingObject = Post.class)
 public class PostController {
 	
-	@RequestMapping(value="/posts/{searchTerm}", method=RequestMethod.GET,produces = "text/html")
+	@RequestMapping(value="/search/{searchTerm}", method=RequestMethod.GET,produces = "text/html")
 	public String search(@PathVariable("searchTerm")String searchTerm,Model uiModel) throws Exception{
-		SphinxClient searchClient = new SphinxClient();
-		String host = System.getenv("OPENSHIFT_INTERNAL_IP");
-		int port = 15000;
-		int mode = SphinxClient.SPH_MATCH_ALL;
-		String index = "*";
-		int offset = 0;
-		int limit = 20;
-		int sortMode = SphinxClient.SPH_SORT_RELEVANCE;
-		String sortClause = "";
-		String groupBy = "";
-		String groupSort = "";
+		try{
+			SphinxClient searchClient = new SphinxClient();
+			String host = System.getenv("OPENSHIFT_INTERNAL_IP");
+			int port = 15000;
+			int mode = SphinxClient.SPH_MATCH_ALL;
+			String index = "*";
+			int offset = 0;
+			int limit = 20;
+			int sortMode = SphinxClient.SPH_SORT_RELEVANCE;
+			String sortClause = "";
+			
+			searchClient.SetServer(host, port);
+			searchClient.SetWeights ( new int[] { 100, 1 } );
+			searchClient.SetMatchMode ( mode );
+			searchClient.SetLimits ( offset, limit );
+			searchClient.SetSortMode ( sortMode, sortClause );
+			
+			SphinxResult result = searchClient.Query(searchTerm, index);
+			System.out.println("Result is "+result);
+			String message =  "Query '" + searchTerm + "' retrieved " + result.total + " of " + result.totalFound + " matches in " + result.time + " sec." ;
+			uiModel.addAttribute("message", message);
+			uiModel.addAttribute("result", result);
+			return "posts/result";
+		}catch(Exception e){
+			System.out.println(e.getCause());
+			e.printStackTrace();
+			return "posts/create";
+		}
 		
-		searchClient.SetServer(host, port);
-		searchClient.SetWeights ( new int[] { 100, 1 } );
-		searchClient.SetMatchMode ( mode );
-		searchClient.SetLimits ( offset, limit );
-		searchClient.SetSortMode ( sortMode, sortClause );
-		
-		SphinxResult result = searchClient.Query(searchTerm, index);
-		String message =  "Query '" + searchTerm + "' retrieved " + result.total + " of " + result.totalFound + " matches in " + result.time + " sec." ;
-		uiModel.addAttribute("message", message);
-		uiModel.addAttribute("result", result);
-		return "posts/result";
 	}
 	
 
