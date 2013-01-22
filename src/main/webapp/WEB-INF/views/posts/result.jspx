@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<c:out value="${message}"></c:out><br></br><BR />
+	
+</div>
