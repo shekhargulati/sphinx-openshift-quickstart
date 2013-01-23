@@ -31,11 +31,11 @@
 			<name>Spring Roo Repository</name>
 			<url>http://spring-roo-repository.springsource.org/release</url>
 		</repository>
-		<repository>
+		<!--<repository>
 			<id>mynexus</id>
 			<name>my nexus</name>
 			<url>http://nexus-ideas.rhcloud.com/nexus/content/groups/public</url>
-		</repository>
+		</repository>-->
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
