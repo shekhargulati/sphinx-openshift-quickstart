@@ -3,5 +3,4 @@ target
 bin
 .classpath
 .project
-*.jar
 *.war

@@ -3,3 +3,5 @@
 # available.  Otherwise it will execute while your application is stopped
 # before the build step.  This script gets executed directly, so it
 # could be python, php, ruby, etc.
+set -x
+mvn install:install-file -Dfile=$OPENSHIFT_REPO_DIR/sphinxapi-1.0.jar -DgroupId=org.sphx -DartifactId=sphinxapi -Dversion=1.0 -Dpackaging=jar
